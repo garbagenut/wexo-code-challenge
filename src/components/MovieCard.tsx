@@ -22,7 +22,12 @@ export default function MovieCard({
 }: MovieCardProps) {
   return (
     <article className={styles.card}>
-      <Link href={`/movie/${id}`} className={styles.link}>
+      <Link
+        href={`/movie/${id}`}
+        className={styles.link}
+        // Native title shows the full name when the visible heading is clamped.
+        title={title}
+      >
         <PosterImage
           posterPath={posterPath}
           title={title}

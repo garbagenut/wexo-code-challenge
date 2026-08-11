@@ -1,0 +1,23 @@
+.link {
+  position: absolute;
+  left: 1rem;
+  top: 0;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  border-radius: 0.4rem;
+  background: var(--color-accent);
+  color: #1a0f0c;
+  font-weight: 700;
+  transform: translateY(-120%);
+  transition: transform 0.15s ease;
+}
+
+.link:focus {
+  outline: none;
+}
+
+.link:focus-visible {
+  transform: translateY(0.75rem);
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
+}

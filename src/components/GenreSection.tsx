@@ -34,7 +34,11 @@ export default function GenreSection({
             {formatMovieCount(totalResults)}
           </p>
         </div>
-        <Link href={`/genre/${genre.id}`} className={styles.seeAll}>
+        <Link
+          href={`/genre/${genre.id}`}
+          className={styles.seeAll}
+          aria-label={`See all ${genre.name} movies`}
+        >
           See all
         </Link>
       </div>

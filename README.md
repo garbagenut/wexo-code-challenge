@@ -62,6 +62,6 @@ npm run lint    # ESLint
 
 ## Project status
 
-**Increment 10 complete:** wishlist page lists saved movies, supports instant remove, and shows an empty state.
+**Increment 11 complete:** responsive spacing/grids and accessibility polish (skip link, focus/touch targets, contrast, reduced motion, not-found page).
 
-Next: responsive design and accessibility polish.
+Next: error/empty state hardening if needed, then optional trailer / README.

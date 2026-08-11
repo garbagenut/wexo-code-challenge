@@ -31,3 +31,11 @@
   overflow: hidden;
   min-height: 2.7em;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .link,
+  .link:hover {
+    transition: none;
+    transform: none;
+  }
+}

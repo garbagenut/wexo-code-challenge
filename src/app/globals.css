@@ -4,15 +4,38 @@
   --color-surface: #1a222d;
   --color-border: #2a3544;
   --color-text: #f3f1ec;
-  --color-text-muted: #a8b0bc;
+  /* Slightly lighter muted text for stronger contrast on the dark background */
+  --color-text-muted: #b6bfcb;
   --color-accent: #ff6b4a;
   --color-accent-soft: #ff8f75;
   --layout-max-width: 1200px;
-  --space-page: 1.5rem;
+  --space-page: 1.15rem;
+  --touch-min: 2.75rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --space-page: 1.5rem;
+  }
 }
 
 html {
   height: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 html,
@@ -30,6 +53,7 @@ body {
     radial-gradient(ellipse 80% 50% at 50% -20%, #2a1a14 0%, transparent 55%),
     var(--color-bg);
   font-family: var(--font-sans), system-ui, sans-serif;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -51,9 +75,14 @@ a {
   max-width: var(--layout-max-width);
   margin: 0 auto;
   padding: var(--space-page);
+  padding-bottom: 2.5rem;
 }
 
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
 }

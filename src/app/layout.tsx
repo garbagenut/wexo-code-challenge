@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit, Source_Serif_4 } from "next/font/google";
 import Header from "@/components/Header";
+import SkipLink from "@/components/SkipLink";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -26,8 +27,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${outfit.variable} ${sourceSerif.variable}`}>
       <body>
+        <SkipLink />
         <Header />
-        <main className="main">{children}</main>
+        <main id="main-content" className="main">
+          {children}
+        </main>
       </body>
     </html>
   );
