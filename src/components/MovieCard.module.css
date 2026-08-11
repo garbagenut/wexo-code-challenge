@@ -1,0 +1,33 @@
+.card {
+  min-width: 0;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  border-radius: 0.65rem;
+  transition: transform 0.18s ease, color 0.18s ease;
+}
+
+.link:hover {
+  transform: translateY(-3px);
+  color: var(--color-accent-soft);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+.title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.35;
+  /* Two-line clamp keeps uneven titles from breaking the grid rhythm */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.7em;
+}

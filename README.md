@@ -62,6 +62,6 @@ npm run lint    # ESLint
 
 ## Project status
 
-**Increment 2 complete:** typed TMDB API client, focused types, image URL helper, env validation.
+**Increment 3 complete:** reusable `MovieCard`, poster placeholder handling, and responsive `MovieGrid`.
 
-Next: reusable movie card and image handling in the UI.
+Next: homepage genre sections wired to TMDB.
