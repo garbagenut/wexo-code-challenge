@@ -62,6 +62,6 @@ npm run lint    # ESLint
 
 ## Project status
 
-**Increment 12 complete:** stronger error/empty/loading edge-case handling (skeletons, empty states, partial homepage resilience, credits fallback, trailer helper prep).
+**Increment 13 complete:** optional YouTube trailer embed on movie details when TMDB provides one.
 
-Next: optional YouTube trailer on movie details.
+Next: final README and documentation polish.

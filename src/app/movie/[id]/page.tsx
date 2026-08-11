@@ -4,11 +4,12 @@ import { notFound } from "next/navigation";
 import ApiErrorState from "@/components/ApiErrorState";
 import BackdropImage from "@/components/BackdropImage";
 import MovieCredits from "@/components/MovieCredits";
+import MovieTrailer from "@/components/MovieTrailer";
 import PosterImage from "@/components/PosterImage";
 import WishlistButton from "@/components/WishlistButton";
 import { formatReleaseYear } from "@/lib/format";
 import { TmdbApiError } from "@/lib/tmdb/client";
-import { getMovieDetails } from "@/lib/tmdb/movies";
+import { getMovieDetails, getMovieTrailer } from "@/lib/tmdb/movies";
 import type { TmdbMovieDetails } from "@/types/tmdb";
 import styles from "./page.module.css";
 
@@ -66,6 +67,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
 
   const movie = result.movie;
   const year = formatReleaseYear(movie.release_date);
+  const trailer = getMovieTrailer(movie);
 
   return (
     <article className={styles.page}>
@@ -127,6 +129,8 @@ export default async function MoviePage({ params }: MoviePageProps) {
           <MovieCredits credits={movie.credits} />
         </div>
       </div>
+
+      <MovieTrailer movieTitle={movie.title} trailer={trailer} />
     </article>
   );
 }

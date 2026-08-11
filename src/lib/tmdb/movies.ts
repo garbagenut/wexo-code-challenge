@@ -175,8 +175,8 @@ export function findTrailer(
 }
 
 /**
- * Trailer helper for the upcoming optional trailer UI.
- * Returns undefined when videos are missing/empty so the UI can omit the section.
+ * Resolve the best YouTube trailer from a movie details payload.
+ * Returns undefined when videos are missing so the UI can omit the section.
  */
 export function getMovieTrailer(
   movie: TmdbMovieDetails,
