@@ -10,6 +10,11 @@
   margin-bottom: 0.75rem;
 }
 
+.unavailableText {
+  color: var(--color-text-muted);
+  line-height: 1.55;
+}
+
 .director {
   display: flex;
   align-items: center;

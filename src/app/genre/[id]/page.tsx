@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import ApiErrorState from "@/components/ApiErrorState";
+import EmptyState from "@/components/EmptyState";
 import MovieCard from "@/components/MovieCard";
 import MovieGrid from "@/components/MovieGrid";
 import Pagination, {
@@ -74,17 +75,26 @@ export default async function GenrePage({
         <p className={styles.count}>{formatMovieCount(movies.total_results)}</p>
       </header>
 
-      <MovieGrid aria-label={`${genre.name} movies`}>
-        {movies.results.map((movie, index) => (
-          <MovieCard
-            key={movie.id}
-            id={movie.id}
-            title={movie.title}
-            posterPath={movie.poster_path}
-            priority={index < 2}
-          />
-        ))}
-      </MovieGrid>
+      {movies.results.length === 0 ? (
+        <EmptyState
+          title="No movies on this page"
+          message="There are no titles to show for this page. Try another page or go back home."
+          actionHref="/"
+          actionLabel="Back to home"
+        />
+      ) : (
+        <MovieGrid aria-label={`${genre.name} movies`}>
+          {movies.results.map((movie, index) => (
+            <MovieCard
+              key={movie.id}
+              id={movie.id}
+              title={movie.title}
+              posterPath={movie.poster_path}
+              priority={index < 2}
+            />
+          ))}
+        </MovieGrid>
+      )}
 
       <Pagination
         currentPage={movies.page}

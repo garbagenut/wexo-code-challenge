@@ -62,6 +62,6 @@ npm run lint    # ESLint
 
 ## Project status
 
-**Increment 11 complete:** responsive spacing/grids and accessibility polish (skip link, focus/touch targets, contrast, reduced motion, not-found page).
+**Increment 12 complete:** stronger error/empty/loading edge-case handling (skeletons, empty states, partial homepage resilience, credits fallback, trailer helper prep).
 
-Next: error/empty state hardening if needed, then optional trailer / README.
+Next: optional YouTube trailer on movie details.

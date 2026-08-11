@@ -1,4 +1,5 @@
 import Link from "next/link";
+import EmptyState from "@/components/EmptyState";
 import MovieCard from "@/components/MovieCard";
 import MovieGrid from "@/components/MovieGrid";
 import { formatMovieCount } from "@/lib/format";
@@ -30,9 +31,7 @@ export default function GenreSection({
           <h2 id={`genre-${genre.id}`} className={styles.title}>
             {genre.name}
           </h2>
-          <p className={styles.count}>
-            {formatMovieCount(totalResults)}
-          </p>
+          <p className={styles.count}>{formatMovieCount(totalResults)}</p>
         </div>
         <Link
           href={`/genre/${genre.id}`}
@@ -43,18 +42,26 @@ export default function GenreSection({
         </Link>
       </div>
 
-      <MovieGrid aria-label={`${genre.name} movies`}>
-        {preview.map((movie, index) => (
-          <MovieCard
-            key={movie.id}
-            id={movie.id}
-            title={movie.title}
-            posterPath={movie.poster_path}
-            priority={prioritisePosters && index < 2}
-          />
-        ))}
-      </MovieGrid>
+      {preview.length === 0 ? (
+        <EmptyState
+          title="No movies to preview"
+          message="TMDB did not return titles for this genre right now. Try opening the full genre page."
+          actionHref={`/genre/${genre.id}`}
+          actionLabel="Open genre page"
+        />
+      ) : (
+        <MovieGrid aria-label={`${genre.name} movies`}>
+          {preview.map((movie, index) => (
+            <MovieCard
+              key={movie.id}
+              id={movie.id}
+              title={movie.title}
+              posterPath={movie.poster_path}
+              priority={prioritisePosters && index < 2}
+            />
+          ))}
+        </MovieGrid>
+      )}
     </section>
   );
 }
-

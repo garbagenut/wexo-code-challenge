@@ -21,7 +21,16 @@ export default function MovieCredits({ credits }: MovieCreditsProps) {
     .slice(0, CAST_LIMIT);
 
   if (!director && cast.length === 0) {
-    return null;
+    return (
+      <section aria-labelledby="credits-unavailable">
+        <h2 id="credits-unavailable" className={styles.sectionTitle}>
+          Cast &amp; crew
+        </h2>
+        <p className={styles.unavailableText}>
+          Cast and crew information is not available for this movie.
+        </p>
+      </section>
+    );
   }
 
   return (

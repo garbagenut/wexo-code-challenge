@@ -55,14 +55,14 @@ export type HomepageGenreSection = {
 
 /**
  * Load all required genres, then fetch each genre's first discover page in parallel.
- * Promise.all keeps homepage latency closer to one slow request instead of nine sequential ones.
+ * Promise.allSettled keeps successful sections even if one genre discover fails.
  */
 export async function getHomepageGenreSections(): Promise<
   HomepageGenreSection[]
 > {
   const genres = await getRequiredGenres();
 
-  return Promise.all(
+  const settled = await Promise.allSettled(
     genres.map(async (genre) => {
       const data = await discoverMoviesByGenre(genre.id, 1);
 
@@ -70,9 +70,21 @@ export async function getHomepageGenreSections(): Promise<
         genre,
         totalResults: data.total_results,
         movies: data.results,
-      };
+      } satisfies HomepageGenreSection;
     }),
   );
+
+  const sections = settled.flatMap((result) =>
+    result.status === "fulfilled" ? [result.value] : [],
+  );
+
+  if (sections.length === 0) {
+    throw new Error(
+      "Could not load any genre sections from TMDB. Check your connection and API token.",
+    );
+  }
+
+  return sections;
 }
 
 export async function discoverMoviesByGenre(
@@ -160,4 +172,14 @@ export function findTrailer(
     youtube.find((video) => video.type === "Teaser") ??
     youtube[0]
   );
+}
+
+/**
+ * Trailer helper for the upcoming optional trailer UI.
+ * Returns undefined when videos are missing/empty so the UI can omit the section.
+ */
+export function getMovieTrailer(
+  movie: TmdbMovieDetails,
+): TmdbVideo | undefined {
+  return findTrailer(movie.videos?.results);
 }
