@@ -12,6 +12,8 @@ type PosterImageProps = {
   /** Use for above-the-fold posters so Next can preload them. */
   priority?: boolean;
   className?: string;
+  /** Override the default responsive sizes hint when the poster is larger (detail page). */
+  sizes?: string;
 };
 
 /**
@@ -24,6 +26,7 @@ export default function PosterImage({
   size = "w342",
   priority = false,
   className,
+  sizes = "(max-width: 640px) 45vw, (max-width: 1024px) 22vw, 180px",
 }: PosterImageProps) {
   const src = getTmdbImageUrl(posterPath, size);
   const rootClassName = className
@@ -50,7 +53,7 @@ export default function PosterImage({
         src={src}
         alt={`Poster for ${title}`}
         fill
-        sizes="(max-width: 640px) 45vw, (max-width: 1024px) 22vw, 180px"
+        sizes={sizes}
         className={styles.image}
         priority={priority}
       />

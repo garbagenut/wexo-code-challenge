@@ -62,6 +62,6 @@ npm run lint    # ESLint
 
 ## Project status
 
-**Increment 6 complete:** genre page pagination via `?page=` (Previous / Next links).
+**Increment 7 complete:** movie detail page with title, year, overview, poster, backdrop, and genres.
 
-Next: movie detail page.
+Next: cast and director on the movie detail page.
