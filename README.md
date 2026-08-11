@@ -62,6 +62,6 @@ npm run lint    # ESLint
 
 ## Project status
 
-**Increment 9 complete:** wishlist add/remove on movie detail via `useWishlist` + localStorage (no Context).
+**Increment 10 complete:** wishlist page lists saved movies, supports instant remove, and shows an empty state.
 
-Next: wishlist page listing saved movies.
+Next: responsive design and accessibility polish.

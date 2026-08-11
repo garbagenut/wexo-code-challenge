@@ -12,7 +12,7 @@ export type MovieCardProps = {
 
 /**
  * Shared movie tile used on home, genre, and wishlist views.
- * Stays a Server Component: only links and images, no browser APIs.
+ * No browser APIs — safe to reuse from client wishlist UI as well as Server Components.
  */
 export default function MovieCard({
   id,
