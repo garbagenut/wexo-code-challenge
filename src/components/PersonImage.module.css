@@ -1,0 +1,28 @@
+.root {
+  position: relative;
+  width: 4.5rem;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: 0.45rem;
+  background:
+    linear-gradient(160deg, #2a3544 0%, #1a222d 55%, #151b24 100%);
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.initial {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-accent-soft);
+  opacity: 0.85;
+  user-select: none;
+}

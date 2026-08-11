@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ApiErrorState from "@/components/ApiErrorState";
 import BackdropImage from "@/components/BackdropImage";
+import MovieCredits from "@/components/MovieCredits";
 import PosterImage from "@/components/PosterImage";
 import { formatReleaseYear } from "@/lib/format";
 import { TmdbApiError } from "@/lib/tmdb/client";
@@ -113,6 +114,8 @@ export default async function MoviePage({ params }: MoviePageProps) {
                 : "No overview is available for this movie."}
             </p>
           </section>
+
+          <MovieCredits credits={movie.credits} />
         </div>
       </div>
     </article>

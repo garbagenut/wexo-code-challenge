@@ -62,6 +62,6 @@ npm run lint    # ESLint
 
 ## Project status
 
-**Increment 7 complete:** movie detail page with title, year, overview, poster, backdrop, and genres.
+**Increment 8 complete:** movie detail page shows director and top cast from TMDB credits.
 
-Next: cast and director on the movie detail page.
+Next: wishlist with localStorage.
