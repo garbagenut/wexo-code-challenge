@@ -5,6 +5,7 @@ import type {
   TmdbGenre,
   TmdbGenreListResponse,
   TmdbMovieDetails,
+  TmdbMovieListItem,
   TmdbPaginatedMovies,
   TmdbVideo,
 } from "@/types/tmdb";
@@ -44,6 +45,34 @@ export async function getRequiredGenres(
   }
 
   return required;
+}
+
+export type HomepageGenreSection = {
+  genre: TmdbGenre;
+  totalResults: number;
+  movies: TmdbMovieListItem[];
+};
+
+/**
+ * Load all required genres, then fetch each genre's first discover page in parallel.
+ * Promise.all keeps homepage latency closer to one slow request instead of nine sequential ones.
+ */
+export async function getHomepageGenreSections(): Promise<
+  HomepageGenreSection[]
+> {
+  const genres = await getRequiredGenres();
+
+  return Promise.all(
+    genres.map(async (genre) => {
+      const data = await discoverMoviesByGenre(genre.id, 1);
+
+      return {
+        genre,
+        totalResults: data.total_results,
+        movies: data.results,
+      };
+    }),
+  );
 }
 
 export async function discoverMoviesByGenre(

@@ -62,6 +62,6 @@ npm run lint    # ESLint
 
 ## Project status
 
-**Increment 3 complete:** reusable `MovieCard`, poster placeholder handling, and responsive `MovieGrid`.
+**Increment 4 complete:** homepage genre sections loaded from TMDB (title, count, preview grid, see-all links).
 
-Next: homepage genre sections wired to TMDB.
+Next: genre detail page.
