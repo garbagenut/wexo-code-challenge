@@ -86,14 +86,6 @@ export function useWishlist() {
     [items],
   );
 
-  const addItem = useCallback((item: WishlistItem) => {
-    const current = readWishlist();
-    if (current.some((entry) => entry.id === item.id)) {
-      return;
-    }
-    persist([...current, item]);
-  }, []);
-
   const removeItem = useCallback((id: number) => {
     persist(readWishlist().filter((item) => item.id !== id));
   }, []);
@@ -111,7 +103,6 @@ export function useWishlist() {
   return {
     items,
     isInWishlist,
-    addItem,
     removeItem,
     toggleItem,
   };
