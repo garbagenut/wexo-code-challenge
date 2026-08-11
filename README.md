@@ -62,6 +62,6 @@ npm run lint    # ESLint
 
 ## Project status
 
-**Increment 4 complete:** homepage genre sections loaded from TMDB (title, count, preview grid, see-all links).
+**Increment 5 complete:** genre detail page (`/genre/[id]`) with title, total count, and first discover page grid.
 
-Next: genre detail page.
+Next: pagination on the genre page.

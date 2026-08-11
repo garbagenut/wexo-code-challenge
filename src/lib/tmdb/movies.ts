@@ -89,6 +89,40 @@ export async function discoverMoviesByGenre(
   });
 }
 
+/** Look up a single genre by TMDB id, or null if it is not in the official list. */
+export async function getGenreById(
+  genreId: number,
+  language = "en",
+): Promise<TmdbGenre | null> {
+  const genres = await getMovieGenres(language);
+  return genres.find((genre) => genre.id === genreId) ?? null;
+}
+
+export type GenrePageData = {
+  genre: TmdbGenre;
+  movies: TmdbPaginatedMovies;
+};
+
+/**
+ * Load genre metadata and one discover page together.
+ * Parallel fetch avoids waiting for the genre list before starting discover.
+ */
+export async function getGenrePageData(
+  genreId: number,
+  page = 1,
+): Promise<GenrePageData | null> {
+  const [genre, movies] = await Promise.all([
+    getGenreById(genreId),
+    discoverMoviesByGenre(genreId, page),
+  ]);
+
+  if (!genre) {
+    return null;
+  }
+
+  return { genre, movies };
+}
+
 /**
  * One request for details + credits (+ videos for a later trailer feature)
  * via TMDB append_to_response — fewer round-trips than separate calls.

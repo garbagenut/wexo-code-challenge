@@ -1,6 +1,7 @@
 import Link from "next/link";
 import MovieCard from "@/components/MovieCard";
 import MovieGrid from "@/components/MovieGrid";
+import { formatMovieCount } from "@/lib/format";
 import type { TmdbGenre, TmdbMovieListItem } from "@/types/tmdb";
 import styles from "./GenreSection.module.css";
 
@@ -53,6 +54,3 @@ export default function GenreSection({
   );
 }
 
-function formatMovieCount(total: number): string {
-  return `${total.toLocaleString("en-US")} movies`;
-}
