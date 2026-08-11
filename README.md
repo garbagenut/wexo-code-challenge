@@ -10,7 +10,7 @@ Movie browsing app for the **WEXO A/S** recruitment code challenge, powered by [
 - React
 - TypeScript
 - CSS Modules
-- TMDB API v3 (coming next)
+- TMDB API v3 (server-side Bearer token)
 - npm
 
 ## Setup
@@ -62,6 +62,6 @@ npm run lint    # ESLint
 
 ## Project status
 
-**Increment 1 complete:** Next.js scaffold, layout shell, CSS Modules foundation, env template.
+**Increment 2 complete:** typed TMDB API client, focused types, image URL helper, env validation.
 
-Next: typed TMDB API client (server-side Bearer token).
+Next: reusable movie card and image handling in the UI.
