@@ -1,8 +1,12 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import ApiErrorState from "@/components/ApiErrorState";
 import MovieCard from "@/components/MovieCard";
 import MovieGrid from "@/components/MovieGrid";
+import Pagination, {
+  buildPageHref,
+  parsePageParam,
+} from "@/components/Pagination";
 import { formatMovieCount } from "@/lib/format";
 import {
   getGenrePageData,
@@ -12,25 +16,31 @@ import styles from "./page.module.css";
 
 /**
  * Force dynamic rendering so `next build` does not require TMDB credentials.
- * Pagination arrives in the next increment; this page always shows discover page 1.
+ * Page number comes from the URL search param so each page is shareable.
  */
 export const dynamic = "force-dynamic";
 
 type GenrePageProps = {
   // Next.js passes dynamic segment params as a Promise in the App Router.
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ page?: string | string[] }>;
 };
 
-export default async function GenrePage({ params }: GenrePageProps) {
+export default async function GenrePage({
+  params,
+  searchParams,
+}: GenrePageProps) {
   const { id: rawId } = await params;
   const genreId = Number(rawId);
+  const requestedPage = parsePageParam((await searchParams).page);
 
   // Non-numeric ids are not valid TMDB genre ids.
   if (!Number.isInteger(genreId) || genreId <= 0) {
     notFound();
   }
 
-  const result = await loadGenrePage(genreId);
+  const basePath = `/genre/${genreId}`;
+  const result = await loadGenrePage(genreId, requestedPage);
 
   if (result.status === "not_found") {
     notFound();
@@ -49,6 +59,11 @@ export default async function GenrePage({ params }: GenrePageProps) {
   }
 
   const { genre, movies } = result.data;
+
+  // If the URL asks for a page beyond TMDB's total, send the user to the last page.
+  if (movies.total_pages > 0 && requestedPage > movies.total_pages) {
+    redirect(buildPageHref(basePath, movies.total_pages));
+  }
 
   return (
     <div className={styles.page}>
@@ -70,6 +85,12 @@ export default async function GenrePage({ params }: GenrePageProps) {
           />
         ))}
       </MovieGrid>
+
+      <Pagination
+        currentPage={movies.page}
+        totalPages={movies.total_pages}
+        basePath={basePath}
+      />
     </div>
   );
 }
@@ -87,9 +108,12 @@ type LoadResult =
   | { status: "not_found" }
   | { status: "error"; message: string };
 
-async function loadGenrePage(genreId: number): Promise<LoadResult> {
+async function loadGenrePage(
+  genreId: number,
+  page: number,
+): Promise<LoadResult> {
   try {
-    const data = await getGenrePageData(genreId, 1);
+    const data = await getGenrePageData(genreId, page);
 
     if (!data) {
       return { status: "not_found" };

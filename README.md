@@ -62,6 +62,6 @@ npm run lint    # ESLint
 
 ## Project status
 
-**Increment 5 complete:** genre detail page (`/genre/[id]`) with title, total count, and first discover page grid.
+**Increment 6 complete:** genre page pagination via `?page=` (Previous / Next links).
 
-Next: pagination on the genre page.
+Next: movie detail page.
