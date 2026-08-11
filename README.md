@@ -62,6 +62,6 @@ npm run lint    # ESLint
 
 ## Project status
 
-**Increment 8 complete:** movie detail page shows director and top cast from TMDB credits.
+**Increment 9 complete:** wishlist add/remove on movie detail via `useWishlist` + localStorage (no Context).
 
-Next: wishlist with localStorage.
+Next: wishlist page listing saved movies.

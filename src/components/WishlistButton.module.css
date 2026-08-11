@@ -1,0 +1,41 @@
+.button,
+.buttonActive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 2.75rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: 0.45rem;
+  border: 1px solid var(--color-border);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.button {
+  background: transparent;
+  color: var(--color-text);
+}
+
+.button:hover,
+.button:focus-visible {
+  border-color: var(--color-accent);
+  color: var(--color-accent-soft);
+}
+
+.buttonActive {
+  background: color-mix(in srgb, var(--color-accent) 18%, var(--color-surface));
+  border-color: var(--color-accent);
+  color: var(--color-accent-soft);
+}
+
+.buttonActive:hover,
+.buttonActive:focus-visible {
+  background: color-mix(in srgb, var(--color-accent) 28%, var(--color-surface));
+}

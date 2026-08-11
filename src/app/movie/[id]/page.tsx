@@ -5,6 +5,7 @@ import ApiErrorState from "@/components/ApiErrorState";
 import BackdropImage from "@/components/BackdropImage";
 import MovieCredits from "@/components/MovieCredits";
 import PosterImage from "@/components/PosterImage";
+import WishlistButton from "@/components/WishlistButton";
 import { formatReleaseYear } from "@/lib/format";
 import { TmdbApiError } from "@/lib/tmdb/client";
 import { getMovieDetails } from "@/lib/tmdb/movies";
@@ -91,6 +92,14 @@ export default async function MoviePage({ params }: MoviePageProps) {
             <h1 className={styles.title}>{movie.title}</h1>
             {year ? <p className={styles.year}>{year}</p> : null}
           </header>
+
+          <WishlistButton
+            movie={{
+              id: movie.id,
+              title: movie.title,
+              posterPath: movie.poster_path,
+            }}
+          />
 
           {movie.genres.length > 0 ? (
             <ul className={styles.genres} aria-label="Genres">
