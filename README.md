@@ -2,7 +2,7 @@
 
 A movie browsing web app built for the **WEXO A/S** code challenge, using [The Movie Database (TMDB)](https://developer.themoviedb.org/) API.
 
-Browse curated genres, open genre grids with pagination, view movie details (including cast, director, and trailers when available), and save titles to a device-local wishlist.
+Browse curated genres, open genre grids with pagination, search by title, view movie details (including cast, director, and trailers when available), and save titles to a device-local wishlist.
 
 ## Tech stack
 
@@ -12,7 +12,7 @@ Browse curated genres, open genre grids with pagination, view movie details (inc
 | **React** | UI components |
 | **TypeScript** | Typed props and TMDB response shapes |
 | **CSS Modules** | Scoped styling without a utility framework |
-| **TMDB API v3** | Genres, discover, movie details, credits, videos |
+| **TMDB API v3** | Genres, discover, search, movie details, credits, videos |
 | **native `fetch`** | HTTP client (no axios / SDK) |
 | **`localStorage`** | Wishlist persistence (no backend) |
 | **npm** | Package management |
@@ -22,21 +22,23 @@ Browse curated genres, open genre grids with pagination, view movie details (inc
 - **Next.js App Router** — multi-page catalogue with server-side data fetching so the TMDB access token never reaches the browser.
 - **TypeScript** — safer refactors and clearer contracts around API data.
 - **CSS Modules** — enough structure for this app size without Tailwind or CSS-in-JS.
-- **Server Components by default** — `"use client"` only where interactivity is required (wishlist).
+- **Server Components by default** — `"use client"` only where interactivity is required (wishlist, header search, carousels, genre jump).
 - **`localStorage` wishlist** — matches the brief (permanent persistence not required) and stays easy to explain.
 
 ## Architecture
 
 ```text
 src/
-  app/                 # Routes (App Router): home, genre, movie, wishlist
-  components/          # Shared UI (cards, grids, trailer, wishlist, states)
+  app/                 # Routes: home, genre, movie, search, wishlist
+  components/          # Shared UI (cards, grids, header search, trailer, wishlist, states)
   lib/tmdb/            # Server-only TMDB client, helpers, image URLs
   lib/wishlist/        # localStorage + useWishlist hook
   types/               # Focused TMDB TypeScript types
 ```
 
 **Data flow (catalogue pages):** browser → Next.js Server Component → TMDB (`Authorization: Bearer …`) → HTML.
+
+**Search flow:** header expands an inline field → navigate to `/search?q=…` → Server Component calls TMDB search → results + pagination.
 
 **Wishlist flow:** Client Components call `useWishlist` → React state + `localStorage` (immediate UI updates; no full page refresh).
 
@@ -47,7 +49,7 @@ Important routes:
 | `/` | Homepage genre sections (preview + counts) |
 | `/genre/[id]` | Full genre grid + `?page=` pagination |
 | `/movie/[id]` | Detail, credits, wishlist toggle, optional trailer |
-| `/search` | Movie search (`?q=` + pagination) |
+| `/search` | Search results (`?q=` + pagination); entry via header field |
 | `/wishlist` | Saved movies for this device |
 
 ## Setup
@@ -142,21 +144,22 @@ npm run lint    # ESLint
 - **Server-side TMDB calls** keep the Bearer token off the client (`server-only` on the API layer).
 - **`append_to_response=credits,videos`** loads detail extras in one request.
 - **Wishlist = `useWishlist` + `useSyncExternalStore`**, not Context — `localStorage` is the shared source of truth across routes.
-- **URL-driven pagination** keeps genre pages shareable without client page state.
+- **URL-driven pagination** keeps genre and search pages shareable without client page state.
+- **Hybrid search** — icon expands a header field for quick entry; results live on `/search?q=…` so the query is bookmarkable and paginated. Explicit submit (no typeahead) keeps API load and accessibility simple.
 - **Missing media** uses placeholders or omitted sections (e.g. no trailer → no empty player).
 
 ## Known limitations
 
 - Wishlist is per-browser / per-device; clearing site data removes it.
-- Homepage and genre/movie pages are dynamically rendered and depend on TMDB availability and rate limits.
-- TMDB discover `total_results` / `total_pages` can be very large; pagination uses Previous/Next rather than a full page list.
+- Homepage, genre, movie, and search pages are dynamically rendered and depend on TMDB availability and rate limits.
+- TMDB discover/search `total_results` / `total_pages` can be very large; pagination uses Previous/Next rather than a full page list.
 - Poster CDN failures after a valid `poster_path` are not specially handled beyond Next/Image defaults.
 - Trailer playback depends on YouTube embed availability and network.
 
 ## Possible future improvements
 
 - Authenticated wishlist backed by an API
-- Richer filters (year, rating, multi-genre)
+- Search typeahead / richer filters (year, rating, multi-genre)
 - TV show support reusing the same API/client patterns
 - Automated a11y checks in CI
 - Image `onError` fallbacks for broken CDN assets
