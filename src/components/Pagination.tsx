@@ -4,18 +4,21 @@ import styles from "./Pagination.module.css";
 export type PaginationProps = {
   currentPage: number;
   totalPages: number;
-  /** Path without query string, e.g. `/genre/28`. */
+  /** Path without query string, e.g. `/genre/28` or `/search`. */
   basePath: string;
+  /** Extra query params to preserve across pages (e.g. `{ q: "troy" }` for search). */
+  extraParams?: Record<string, string>;
 };
 
 /**
- * Link-based pagination so the genre page can stay a Server Component.
+ * Link-based pagination so catalogue pages can stay Server Components.
  * Page state lives in the URL (`?page=`), which is shareable and refresh-safe.
  */
 export default function Pagination({
   currentPage,
   totalPages,
   basePath,
+  extraParams,
 }: PaginationProps) {
   if (totalPages <= 1) {
     return null;
@@ -30,7 +33,7 @@ export default function Pagination({
     <nav className={styles.nav} aria-label="Pagination">
       {hasPrevious ? (
         <Link
-          href={buildPageHref(basePath, previousPage)}
+          href={buildPageHref(basePath, previousPage, extraParams)}
           className={styles.link}
           rel="prev"
         >
@@ -48,7 +51,7 @@ export default function Pagination({
 
       {hasNext ? (
         <Link
-          href={buildPageHref(basePath, nextPage)}
+          href={buildPageHref(basePath, nextPage, extraParams)}
           className={styles.link}
           rel="next"
         >
@@ -63,13 +66,28 @@ export default function Pagination({
   );
 }
 
-/** Page 1 omits the query string so the canonical genre URL stays clean. */
-export function buildPageHref(basePath: string, page: number): string {
-  if (page <= 1) {
-    return basePath;
+/** Build a path with optional extra params; page 1 omits `page` for a cleaner URL. */
+export function buildPageHref(
+  basePath: string,
+  page: number,
+  extraParams?: Record<string, string>,
+): string {
+  const params = new URLSearchParams();
+
+  if (extraParams) {
+    for (const [key, value] of Object.entries(extraParams)) {
+      if (value) {
+        params.set(key, value);
+      }
+    }
   }
 
-  return `${basePath}?page=${page}`;
+  if (page > 1) {
+    params.set("page", String(page));
+  }
+
+  const query = params.toString();
+  return query ? `${basePath}?${query}` : basePath;
 }
 
 /** Coerce `?page=` into a positive integer; invalid values fall back to 1. */

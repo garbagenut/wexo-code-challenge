@@ -26,6 +26,17 @@
   min-height: var(--touch-min);
   display: inline-flex;
   align-items: center;
+  transition: color 0.15s ease;
+}
+
+.brand:hover,
+.brand:focus-visible {
+  color: var(--color-accent-soft);
+}
+
+/* Home is implied by the brand link — keep it calm, brand stays brand */
+.brandActive {
+  color: var(--color-accent);
 }
 
 .nav {
@@ -35,24 +46,126 @@
   font-size: 0.95rem;
 }
 
-.nav a {
-  color: var(--color-text-muted);
+.navLink,
+.navLinkActive,
+.iconLink,
+.iconLinkActive {
   min-height: var(--touch-min);
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   padding: 0 0.65rem;
   border-radius: 0.35rem;
-  transition: color 0.15s ease, background-color 0.15s ease;
+  transition: color 0.15s ease;
 }
 
-.nav a:hover {
+.navLink,
+.iconLink {
+  color: var(--color-text-muted);
+}
+
+.navLink:hover,
+.iconLink:hover {
   color: var(--color-text);
 }
 
-.nav a:focus-visible {
-  color: var(--color-text);
+.navLink:focus-visible,
+.navLinkActive:focus-visible,
+.iconLink:focus-visible,
+.iconLinkActive:focus-visible,
+.brand:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+/* Subtle active state — brighter text only, no heavy underline */
+.navLinkActive,
+.iconLinkActive {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.icon {
+  display: block;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.searchForm {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.searchInput {
+  width: min(42vw, 14rem);
+  min-height: var(--touch-min);
+  padding: 0.35rem 0.65rem;
+  border-radius: 0.35rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+.searchInput:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Reset native <button> chrome — iconLink was designed for anchors */
+.searchIconButton {
+  appearance: none;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 0.35rem;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.searchIconButton:hover {
+  color: var(--color-text);
+  background: color-mix(in srgb, var(--color-text) 8%, transparent);
+}
+
+.searchIconButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.searchIconButtonPrimary {
+  color: var(--color-accent-soft);
+}
+
+.searchIconButtonPrimary:hover {
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 @media (min-width: 640px) {
@@ -60,7 +173,14 @@
     gap: 0.5rem;
   }
 
-  .nav a {
+  .navLink,
+  .navLinkActive,
+  .iconLink,
+  .iconLinkActive {
     padding: 0 0.85rem;
+  }
+
+  .searchInput {
+    width: 16rem;
   }
 }

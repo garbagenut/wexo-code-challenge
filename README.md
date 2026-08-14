@@ -47,6 +47,7 @@ Important routes:
 | `/` | Homepage genre sections (preview + counts) |
 | `/genre/[id]` | Full genre grid + `?page=` pagination |
 | `/movie/[id]` | Detail, credits, wishlist toggle, optional trailer |
+| `/search` | Movie search (`?q=` + pagination) |
 | `/wishlist` | Saved movies for this device |
 
 ## Setup
@@ -119,6 +120,11 @@ npm run lint    # ESLint
 ## Optional features implemented
 
 - Genre page pagination (`?page=`)
+- Genre page grid uses **5 columns** on large screens so TMDB’s 20 results fill four even rows
+- Homepage genre jump dropdown
+- Homepage genre carousels (prev/next through the fetched preview set)
+- Poster overview overlay on homepage hover/focus
+- Movie search: header icon expands an inline field → `/search?q=…` (TMDB search + pagination)
 - YouTube trailer embed when TMDB provides a suitable video
 - Loading skeletons for TMDB-backed routes
 - Empty / error / not-found handling
@@ -127,7 +133,7 @@ npm run lint    # ESLint
 
 - TV series (architecture does not block adding them later; movies were prioritised)
 - User accounts / server-side wishlist sync
-- Search, advanced filters, recommendations
+- Advanced filters and recommendations
 - State libraries (Redux/Zustand) — unnecessary for this wishlist
 - Third-party TMDB SDK or video player libraries
 
@@ -150,7 +156,7 @@ npm run lint    # ESLint
 ## Possible future improvements
 
 - Authenticated wishlist backed by an API
-- Search and richer filters
+- Richer filters (year, rating, multi-genre)
 - TV show support reusing the same API/client patterns
 - Automated a11y checks in CI
 - Image `onError` fallbacks for broken CDN assets

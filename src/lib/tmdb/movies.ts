@@ -101,6 +101,20 @@ export async function discoverMoviesByGenre(
   });
 }
 
+/** TMDB movie search — same list shape as discover, filtered by free-text query. */
+export async function searchMovies(
+  query: string,
+  page = 1,
+  language = "en-US",
+): Promise<TmdbPaginatedMovies> {
+  return tmdbFetch<TmdbPaginatedMovies>("/search/movie", {
+    query,
+    page,
+    language,
+    include_adult: false,
+  });
+}
+
 /** Look up a single genre by TMDB id, or null if it is not in the official list. */
 export async function getGenreById(
   genreId: number,

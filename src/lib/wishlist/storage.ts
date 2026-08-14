@@ -39,9 +39,15 @@ function isWishlistItem(value: unknown): value is WishlistItem {
   }
 
   const item = value as Record<string, unknown>;
+  const hasValidOverview =
+    item.overview === undefined ||
+    item.overview === null ||
+    typeof item.overview === "string";
+
   return (
     typeof item.id === "number" &&
     typeof item.title === "string" &&
-    (item.posterPath === null || typeof item.posterPath === "string")
+    (item.posterPath === null || typeof item.posterPath === "string") &&
+    hasValidOverview
   );
 }

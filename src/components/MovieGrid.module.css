@@ -22,3 +22,22 @@
     grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 }
+
+/* Genre pages: 5 columns on large screens → 20 TMDB results = 4 full rows */
+@media (min-width: 640px) {
+  .five {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 900px) {
+  .five {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .five {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}

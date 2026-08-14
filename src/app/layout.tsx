@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: "%s | WEXO Movies",
   },
   description:
-    "Browse movies by genre using The Movie Database (TMDB) API. Built for the WEXO A/S code challenge.",
+    "Browse popular movies by genre using The Movie Database (TMDB) API.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

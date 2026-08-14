@@ -20,6 +20,55 @@
   outline-offset: 4px;
 }
 
+.posterWrap {
+  position: relative;
+  border-radius: 0.6rem;
+  overflow: hidden;
+}
+
+.overview {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  padding: 0.85rem;
+  box-sizing: border-box;
+  /* Full-poster scrim so the overview stays readable from top to bottom */
+  background: rgb(10 14 20 / 82%);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.overviewText {
+  width: 100%;
+  max-height: 100%;
+  color: var(--color-text);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  /* Preview only — clamp with ellipsis; full overview lives on the detail page */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 11;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hover devices: reveal overview on the poster */
+@media (hover: hover) and (pointer: fine) {
+  .link:hover .overview {
+    opacity: 1;
+  }
+}
+
+/* Keyboard users: same reveal on focus */
+.link:focus-visible .overview {
+  opacity: 1;
+}
+
 .title {
   font-size: 0.95rem;
   font-weight: 600;
@@ -37,5 +86,9 @@
   .link:hover {
     transition: none;
     transform: none;
+  }
+
+  .overview {
+    transition: none;
   }
 }

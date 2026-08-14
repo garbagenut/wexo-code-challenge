@@ -47,6 +47,7 @@ export default function WishlistView() {
               id={item.id}
               title={item.title}
               posterPath={item.posterPath}
+              overview={item.overview}
             />
             <button
               type="button"

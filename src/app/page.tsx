@@ -1,4 +1,5 @@
 import ApiErrorState from "@/components/ApiErrorState";
+import GenreJumpSelect from "@/components/GenreJumpSelect";
 import GenreSection from "@/components/GenreSection";
 import {
   getHomepageGenreSections,
@@ -21,22 +22,24 @@ export default async function HomePage() {
     return (
       <div className={styles.page}>
         <header className={styles.hero}>
-          <h1 className={styles.title}>WEXO Movies</h1>
+          <h1 className={styles.title}>Discover movies</h1>
         </header>
         <ApiErrorState title="Could not load movies" message={result.message} />
       </div>
     );
   }
 
+  const genres = result.sections.map((section) => section.genre);
+
   return (
     <div className={styles.page}>
       <header className={styles.hero}>
-        <p className={styles.eyebrow}>Browse by genre</p>
-        <h1 className={styles.title}>WEXO Movies</h1>
+        <h1 className={styles.title}>Discover movies</h1>
         <p className={styles.lead}>
-          Discover popular films across the genres requested for this challenge.
-          Pick a title for details, or open a genre to see the full list.
+          Browse popular films across Action, Comedy, Thriller and more.
+          Open a title for details, or jump to a full genre list.
         </p>
+        <GenreJumpSelect genres={genres} />
       </header>
 
       <div className={styles.sections}>

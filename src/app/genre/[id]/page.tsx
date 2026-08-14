@@ -83,13 +83,14 @@ export default async function GenrePage({
           actionLabel="Back to home"
         />
       ) : (
-        <MovieGrid aria-label={`${genre.name} movies`}>
+        <MovieGrid variant="five" aria-label={`${genre.name} movies`}>
           {movies.results.map((movie, index) => (
             <MovieCard
               key={movie.id}
               id={movie.id}
               title={movie.title}
               posterPath={movie.poster_path}
+              overview={movie.overview}
               priority={index < 2}
             />
           ))}

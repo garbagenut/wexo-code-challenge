@@ -100,6 +100,7 @@ export default async function MoviePage({ params }: MoviePageProps) {
               id: movie.id,
               title: movie.title,
               posterPath: movie.poster_path,
+              overview: movie.overview,
             }}
           />
 

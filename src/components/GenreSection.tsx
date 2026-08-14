@@ -1,12 +1,9 @@
 import Link from "next/link";
 import EmptyState from "@/components/EmptyState";
-import MovieCard from "@/components/MovieCard";
-import MovieGrid from "@/components/MovieGrid";
+import GenreCarousel from "@/components/GenreCarousel";
 import { formatMovieCount } from "@/lib/format";
 import type { TmdbGenre, TmdbMovieListItem } from "@/types/tmdb";
 import styles from "./GenreSection.module.css";
-
-const PREVIEW_COUNT = 6;
 
 export type GenreSectionProps = {
   genre: TmdbGenre;
@@ -22,8 +19,6 @@ export default function GenreSection({
   movies,
   prioritisePosters = false,
 }: GenreSectionProps) {
-  const preview = movies.slice(0, PREVIEW_COUNT);
-
   return (
     <section className={styles.section} aria-labelledby={`genre-${genre.id}`}>
       <div className={styles.header}>
@@ -42,7 +37,7 @@ export default function GenreSection({
         </Link>
       </div>
 
-      {preview.length === 0 ? (
+      {movies.length === 0 ? (
         <EmptyState
           title="No movies to preview"
           message="TMDB did not return titles for this genre right now. Try opening the full genre page."
@@ -50,17 +45,11 @@ export default function GenreSection({
           actionLabel="Open genre page"
         />
       ) : (
-        <MovieGrid aria-label={`${genre.name} movies`}>
-          {preview.map((movie, index) => (
-            <MovieCard
-              key={movie.id}
-              id={movie.id}
-              title={movie.title}
-              posterPath={movie.poster_path}
-              priority={prioritisePosters && index < 2}
-            />
-          ))}
-        </MovieGrid>
+        <GenreCarousel
+          genreName={genre.name}
+          movies={movies}
+          prioritisePosters={prioritisePosters}
+        />
       )}
     </section>
   );
