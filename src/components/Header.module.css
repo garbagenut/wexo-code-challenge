@@ -15,6 +15,7 @@
   max-width: var(--layout-max-width);
   margin: 0 auto;
   padding: 0.75rem var(--space-page);
+  position: relative;
 }
 
 .brand {
@@ -111,12 +112,36 @@
   background: var(--color-bg);
   color: var(--color-text);
   font: inherit;
-  font-size: 0.95rem;
+  font-size: 1rem; /* avoid iOS zoom on focus */
 }
 
 .searchInput:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+/* On small screens the inline field squeezed off-screen — overlay the header instead */
+@media (max-width: 639px) {
+  .searchForm {
+    position: absolute;
+    left: var(--space-page);
+    right: var(--space-page);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    gap: 0.35rem;
+    padding: 0.25rem;
+    border-radius: 0.45rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 8px 24px color-mix(in srgb, #000 35%, transparent);
+  }
+
+  .searchInput {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+  }
 }
 
 /* Reset native <button> chrome — iconLink was designed for anchors */
@@ -127,6 +152,7 @@
   background: transparent;
   color: var(--color-text-muted);
   cursor: pointer;
+  text-decoration: none;
   min-width: var(--touch-min);
   min-height: var(--touch-min);
   display: inline-flex;

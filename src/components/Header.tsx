@@ -42,12 +42,13 @@ export default function Header() {
 
 function SearchFallback() {
   return (
-    <span className={styles.iconLink} aria-hidden="true">
+    <Link href="/search" className={styles.searchIconButton} aria-label="Search">
       <svg
         className={styles.icon}
         viewBox="0 0 24 24"
         width="22"
         height="22"
+        aria-hidden="true"
         focusable="false"
       >
         <path
@@ -55,6 +56,6 @@ function SearchFallback() {
           d="M10.5 3a7.5 7.5 0 0 1 5.94 12.06l4.25 4.25a1 1 0 0 1-1.42 1.42l-4.25-4.25A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"
         />
       </svg>
-    </span>
+    </Link>
   );
 }

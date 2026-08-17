@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import {
   useEffect,
@@ -7,12 +8,15 @@ import {
   useRef,
   useState,
   type FormEvent,
+  type MouseEvent,
 } from "react";
 import styles from "./Header.module.css";
 
 /**
- * Hybrid search: icon expands an inline field; submit navigates to `/search?q=…`.
- * Stays expanded on the search route so results can be refined without a second form.
+ * Hybrid search:
+ * - Icon is a real link to `/search` (works on mobile even before JS is ready)
+ * - On wider screens, the same icon can expand an inline field instead
+ * - On `/search`, the field stays open for refining the query
  */
 export default function HeaderSearch() {
   const router = useRouter();
@@ -21,7 +25,6 @@ export default function HeaderSearch() {
   const inputId = useId();
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const toggleRef = useRef<HTMLButtonElement>(null);
 
   const isSearchPage =
     pathname === "/search" || pathname.startsWith("/search/");
@@ -32,7 +35,10 @@ export default function HeaderSearch() {
 
   useEffect(() => {
     if (!open) return;
-    inputRef.current?.focus();
+    // Autofocus is unreliable/annoying on mobile keyboards — desktop only.
+    if (window.matchMedia("(min-width: 640px)").matches) {
+      inputRef.current?.focus();
+    }
   }, [open]);
 
   useEffect(() => {
@@ -40,7 +46,7 @@ export default function HeaderSearch() {
 
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        closeSearch();
+        setUserOpened(false);
       }
     }
 
@@ -51,20 +57,31 @@ export default function HeaderSearch() {
   useEffect(() => {
     if (!open || isSearchPage) return;
 
-    function onPointerDown(event: MouseEvent) {
-      const target = event.target as Node;
-      if (containerRef.current && !containerRef.current.contains(target)) {
-        setUserOpened(false);
+    let remove: (() => void) | undefined;
+    const timer = window.setTimeout(() => {
+      function onPointerDown(event: PointerEvent) {
+        const target = event.target as Node;
+        if (containerRef.current && !containerRef.current.contains(target)) {
+          setUserOpened(false);
+        }
       }
-    }
 
-    document.addEventListener("mousedown", onPointerDown);
-    return () => document.removeEventListener("mousedown", onPointerDown);
+      document.addEventListener("pointerdown", onPointerDown);
+      remove = () => document.removeEventListener("pointerdown", onPointerDown);
+    }, 300);
+
+    return () => {
+      window.clearTimeout(timer);
+      remove?.();
+    };
   }, [open, isSearchPage]);
 
-  function closeSearch() {
-    setUserOpened(false);
-    window.setTimeout(() => toggleRef.current?.focus(), 0);
+  function handleIconClick(event: MouseEvent<HTMLAnchorElement>) {
+    // Desktop: expand inline. Mobile: follow the link to /search.
+    if (window.matchMedia("(min-width: 640px)").matches) {
+      event.preventDefault();
+      setUserOpened(true);
+    }
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -102,6 +119,7 @@ export default function HeaderSearch() {
             placeholder="Search movies…"
             defaultValue={urlQuery}
             autoComplete="off"
+            enterKeyHint="search"
             aria-label="Search movies"
           />
           <button
@@ -116,24 +134,21 @@ export default function HeaderSearch() {
               type="button"
               className={styles.searchIconButton}
               aria-label="Close search"
-              onClick={closeSearch}
+              onClick={() => setUserOpened(false)}
             >
               <CloseIcon />
             </button>
           ) : null}
         </form>
       ) : (
-        <button
-          ref={toggleRef}
-          type="button"
+        <Link
+          href="/search"
           className={styles.searchIconButton}
-          aria-label="Open search"
-          aria-expanded={false}
-          aria-controls={inputId}
-          onClick={() => setUserOpened(true)}
+          aria-label="Search"
+          onClick={handleIconClick}
         >
           <SearchIcon />
-        </button>
+        </Link>
       )}
     </div>
   );
